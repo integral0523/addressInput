@@ -152,11 +152,20 @@ export default Vue.extend({
       if (!this.zyusyo) return
       this.updateMyCat()
       if (!this.myCat.length)
-        localStorage.setItem('myCat', this.shisetsu + ',' + this.zyusyo)
+        localStorage.setItem(
+          'myCat',
+          this.shisetsu + ',' + this.zyusyo + this.chizuData
+        )
       else
         localStorage.setItem(
           'myCat',
-          this.myCat.join('\n') + '\n' + this.shisetsu + ',' + this.zyusyo
+          this.myCat.join('\n') +
+            '\n' +
+            this.shisetsu +
+            ',' +
+            this.zyusyo +
+            ',' +
+            this.chizuData
         )
       this.reset()
       this.snackbar = true
