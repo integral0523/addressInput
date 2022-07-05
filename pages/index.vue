@@ -58,7 +58,7 @@ div
     v-card-title 入力データ操作
     v-card-actions
       v-btn(block, @click='openData') データを見る
-    template(v-show='showData')
+    template(v-if='showData')
       v-card-text
         v-simple-table
           thead
