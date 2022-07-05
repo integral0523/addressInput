@@ -56,5 +56,22 @@ export default {
       title: '住所打ち込み',
     }
   },
+  mounted() {
+    // ダブルクリックによる拡大を防ぐ
+    document.addEventListener(
+      'dblclick',
+      function (e) {
+        e.preventDefault()
+      },
+      { passive: false }
+    )
+  },
 }
 </script>
+
+<style>
+/* ダブルクリックによる拡大を防ぐ */
+html {
+  touch-action: manipulation;
+}
+</style>
