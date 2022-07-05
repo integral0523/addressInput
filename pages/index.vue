@@ -12,7 +12,6 @@ div
         v-text-field(label='地図発行年', v-model='chizuYear')
         v-text-field(label='地図ページ番号', v-model='chizuPage')
         v-divider
-        v-text-field(label='施設・建物名', v-model='shisetsu')
         v-radio-group(v-model='selectshikuchoson', row)
           v-radio(
             v-for='shikuchoson in shikuchosons',
@@ -34,6 +33,7 @@ div
             :label='`${String(choume)}丁目`',
             :key='choume'
           )
+        v-text-field(label='施設・建物名', v-model='shisetsu')
         div(v-show='selectChoume || (selectKoaza && selectKoaza.maxChoume==0)')
           v-text-field(
             label='番地',
@@ -102,7 +102,7 @@ export default Vue.extend({
     selectKoaza: {} as Koaza,
     selectChoume: '',
     banchi: '',
-    banchiRule: [(val: string) => /^\d+(-\d+)*$/.test(val) || 'Error'],
+    banchiRule: [(val: string) => /^(\d+(-\d+))*$/.test(val) || 'Error'],
     buttons: [
       [9, 8, 7],
       [6, 5, 4],
