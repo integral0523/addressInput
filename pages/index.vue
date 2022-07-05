@@ -104,9 +104,9 @@ export default Vue.extend({
     banchi: '',
     banchiRule: [(val: string) => /^(\d+(-\d+))*$/.test(val) || 'Error'],
     buttons: [
-      [9, 8, 7],
-      [6, 5, 4],
-      [3, 2, 1],
+      [7, 8, 9],
+      [4, 5, 6],
+      [1, 2, 3],
       ['-', 0, 'del'],
     ],
     myCat: [] as string[],
