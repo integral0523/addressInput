@@ -126,6 +126,11 @@ export default Vue.extend({
           : ''
       }${this.selectChoume ? this.selectChoume + '丁目' : ''}${this.banchi}`
     },
+    chizuData() {
+      return (
+        this.chizuShikuchoson + '(' + this.chizuYear + '）p. ' + this.chizuPage
+      )
+    },
   },
   mounted() {
     this.updateMyCat()
