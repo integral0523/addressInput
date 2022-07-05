@@ -132,9 +132,9 @@ export default Vue.extend({
     },
     reset() {
       this.shisetsu = ''
-      this.selectshikuchoson = {} as Shikuchoson
-      this.selectKoaza = {} as Koaza
-      this.selectChoume = ''
+      // this.selectshikuchoson = {} as Shikuchoson
+      // this.selectKoaza = {} as Koaza
+      // this.selectChoume = ''
       this.banchi = ''
     },
     downloadReady() {
