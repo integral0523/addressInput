@@ -55,7 +55,23 @@ div
       p {{ zyusyo }}
       v-btn(block, @click='save') 保存
   v-card.mx-auto.my-5(outlined)
-    v-card-text
+    v-card-title 入力データ操作
+    v-card-actions
+      v-btn(block, @click='openData') データを見る
+    template(v-show='showData')
+      v-card-text
+        v-simple-table
+          thead
+            tr
+              th 施設・建物名
+              th 住所
+          tbody(v-for='cat in myCat', :key='cat')
+            tr
+              td {{ cat.split(",")[0] }}
+              td {{ cat.split(",")[1] }}
+      v-card-actions
+        v-btn(block, @click='closeData') 閉じる
+    v-card-actions
       v-dialog(transition='dialog-bottom-transition', max-width='600')
         template(v-slot:activator='{ on, attrs }')
           v-btn(block, @click='downloadReady', v-bind='attrs', v-on='on') ダウンロードする
@@ -93,6 +109,8 @@ export default Vue.extend({
       [3, 2, 1],
       ['-', 0, 'del'],
     ],
+    myCat: [] as string[],
+    showData: false,
     snackbar: false,
     downloadUrl: '',
   }),
@@ -109,6 +127,9 @@ export default Vue.extend({
       }${this.selectChoume ? this.selectChoume + '丁目' : ''}${this.banchi}`
     },
   },
+  mounted() {
+    this.updateMyCat()
+  },
   methods: {
     inputButton(string: string) {
       if (string === 'del') {
@@ -117,18 +138,30 @@ export default Vue.extend({
         this.banchi += string
       }
     },
+    updateMyCat() {
+      const myCat = localStorage.getItem('myCat')
+      if (myCat === null) return
+      this.myCat = myCat.split('\n')
+    },
     save() {
       if (!this.zyusyo) return
-      const myCat = localStorage.getItem('myCat')
-      if (!myCat)
+      this.updateMyCat()
+      if (!this.myCat.length)
         localStorage.setItem('myCat', this.shisetsu + ',' + this.zyusyo)
       else
         localStorage.setItem(
           'myCat',
-          myCat + '\n' + this.shisetsu + ',' + this.zyusyo
+          this.myCat.join('\n') + '\n' + this.shisetsu + ',' + this.zyusyo
         )
       this.reset()
       this.snackbar = true
+    },
+    openData() {
+      this.updateMyCat()
+      this.showData = true
+    },
+    closeData() {
+      this.showData = false
     },
     reset() {
       this.shisetsu = ''
