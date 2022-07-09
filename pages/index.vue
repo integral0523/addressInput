@@ -11,32 +11,40 @@ div
         )
         v-text-field(label='地図発行年', v-model='chizuYear') 
         v-text-field(label='地図ページ番号', v-model='chizuPage')
-        v-switch(label='左右', v-model='leftOrRight')
+        v-switch(label='左右', v-model='leftOrRight', dense)
         v-divider
-        v-radio-group(v-model='selectshikuchoson', row)
+        v-radio-group(v-model='selectshikuchoson', row, dense)
           v-radio(
             v-for='shikuchoson in shikuchosons',
             :value='shikuchoson',
             :label='shikuchoson.shikuchosonName',
             :key='shikuchoson.shikuchosonName'
           )
-        v-radio-group(v-show='selectshikuchoson', v-model='selectKoaza', row)
+        v-radio-group(
+          v-show='selectshikuchoson',
+          v-model='selectKoaza',
+          row,
+          dense
+        )
           v-radio(
             v-for='koaza in selectshikuchoson.koazas ? selectshikuchoson.koazas : []',
             :value='koaza',
             :label='koaza.koazaName',
             :key='koaza.koazaName'
           )
-        v-radio-group(v-show='selectKoaza', v-model='selectChoume', row)
+        v-radio-group(v-show='selectKoaza', v-model='selectChoume', row, dense)
           v-radio(
+            dense,
             v-for='choume in selectKoaza ? (selectKoaza.maxChoume ? selectKoaza.maxChoume : 0) : 0',
             :value='String(choume)',
             :label='`${String(choume)}丁目`',
             :key='choume'
           )
-        v-text-field(label='施設・建物名', v-model='shisetsu')
+        v-divider.mt-3.mb-8
+        v-text-field(label='施設・建物名', v-model='shisetsu', dense)
         div(v-show='selectChoume || (selectKoaza && selectKoaza.maxChoume==0)')
           v-text-field(
+            dense,
             label='番地',
             v-model='banchi',
             :rules='banchiRule',
