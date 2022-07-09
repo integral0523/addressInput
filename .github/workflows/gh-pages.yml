@@ -27,11 +27,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: yarn
-        # - run: npm ci
-        # - run: npm test
-        run: yarn
-        run: yarn generate
+      # - run: npm ci
+      # - run: npm test
+      run: yarn
+      run: yarn generate
 
       - name: deploy
         uses: peaceiris/actions-gh-pages@v3
