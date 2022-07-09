@@ -93,7 +93,7 @@ div
               v-btn(text, @click='dialog.value = false') 閉じる
     v-card-actions(v-show='deleteFlag')
       v-btn(block, @click='deleteData') データを削除する
-  v-snackbar(v-model='snackbar') 保存しました
+  v-snackbar(v-model='snackbar') {{ snackbarText }}
     template(v-slot:action='{ attrs }')
       v-btn(color='pink', text, v-bind='attrs', @click='snackbar = false') 閉じる
 </template>
@@ -124,6 +124,7 @@ export default Vue.extend({
     myCat: [] as string[],
     showData: false,
     snackbar: false,
+    snackbarText: '',
     downloadUrl: '',
     fileName: 'addressData.csv',
     deleteFlag: false,
@@ -194,6 +195,7 @@ export default Vue.extend({
       }
       this.reset()
       this.snackbar = true
+      this.snackbarText = '保存しました'
     },
     openData() {
       this.updateMyCat()
@@ -223,6 +225,8 @@ export default Vue.extend({
       if (!this.deleteFlag) return false
       localStorage.removeItem('myCat')
       this.updateMyCat()
+      this.snackbar = true
+      this.snackbarText = 'データ削除しました'
     },
   },
 })
