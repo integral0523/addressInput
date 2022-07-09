@@ -9,8 +9,9 @@ div
           :items='shikuchosons.map((shikuchoson) => shikuchoson.shikuchosonName)',
           v-model='chizuShikuchoson'
         )
-        v-text-field(label='地図発行年', v-model='chizuYear')
+        v-text-field(label='地図発行年', v-model='chizuYear') 
         v-text-field(label='地図ページ番号', v-model='chizuPage')
+        v-switch(label='左右', v-model='leftOrRight')
         v-divider
         v-radio-group(v-model='selectshikuchoson', row)
           v-radio(
@@ -106,6 +107,7 @@ export default Vue.extend({
     chizuShikuchoson: '',
     chizuYear: '',
     chizuPage: '',
+    leftOrRight: false,
     shisetsu: '',
     shikuchosons,
     selectshikuchoson: {} as Shikuchoson,
@@ -140,7 +142,12 @@ export default Vue.extend({
     },
     chizuData() {
       return (
-        this.chizuShikuchoson + '(' + this.chizuYear + '）p. ' + this.chizuPage
+        this.chizuShikuchoson +
+        '(' +
+        this.chizuYear +
+        '）p.' +
+        this.chizuPage +
+        (this.leftOrRight ? '右' : '左')
       )
     },
   },
