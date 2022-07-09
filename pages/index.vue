@@ -140,6 +140,10 @@ export default Vue.extend({
     inputButton(string: string) {
       if (string === 'del') {
         this.banchi = this.banchi.slice(0, -1)
+      } else if (string === '-') {
+        if (this.banchi.at(-1) !== '-') {
+          this.banchi += string
+        }
       } else {
         this.banchi += string
       }
