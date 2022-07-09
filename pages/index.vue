@@ -84,6 +84,8 @@ div
               v-btn(text, :href='downloadUrl', :download='fileName', block) ダウンロード
             v-card-actions.justify-end
               v-btn(text, @click='dialog.value = false') 閉じる
+    //- v-card-actions(v-show='deleteFlag')
+    //-   v-btn(block, @click='deleteData') データを削除する
   v-snackbar(v-model='snackbar') 保存しました
     template(v-slot:action='{ attrs }')
       v-btn(color='pink', text, v-bind='attrs', @click='snackbar = false') 閉じる
@@ -116,6 +118,7 @@ export default Vue.extend({
     snackbar: false,
     downloadUrl: '',
     fileName: 'addressData.csv',
+    deleteFlag: false,
   }),
   computed: {
     zyusyo() {
@@ -199,6 +202,7 @@ export default Vue.extend({
         })
       )
     },
+    deleteData() {},
   },
 })
 </script>
