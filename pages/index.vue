@@ -156,12 +156,7 @@ export default Vue.extend({
     save() {
       if (!this.zyusyo) return
       this.updateMyCat()
-      if (!this.myCat.length)
-        localStorage.setItem(
-          'myCat',
-          this.shisetsu + ',' + this.zyusyo + this.chizuData
-        )
-      else
+      try {
         localStorage.setItem(
           'myCat',
           this.myCat.join('\n') +
@@ -172,6 +167,9 @@ export default Vue.extend({
             ',' +
             this.chizuData
         )
+      } catch (error) {
+        alert(error)
+      }
       this.reset()
       this.snackbar = true
     },
