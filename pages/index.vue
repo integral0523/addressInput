@@ -225,6 +225,7 @@ export default Vue.extend({
       if (!this.deleteFlag) return false
       localStorage.removeItem('myCat')
       this.updateMyCat()
+      this.deleteFlag = false
       this.snackbar = true
       this.snackbarText = 'データ削除しました'
     },
