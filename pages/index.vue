@@ -57,7 +57,9 @@ div
   v-card.mx-auto.my-5(outlined)
     v-card-title 入力データ操作
     v-card-actions
-      v-btn(block, @click='openData') データを見る
+      v-btn(block, @click='openData')
+        span(v-if='!showData') データを見る
+        span(v-else) 閉じる
     template(v-if='showData')
       v-card-text
         v-simple-table
@@ -175,7 +177,7 @@ export default Vue.extend({
     },
     openData() {
       this.updateMyCat()
-      this.showData = true
+      this.showData = !this.showData
     },
     closeData() {
       this.showData = false
