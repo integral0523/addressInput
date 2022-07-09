@@ -70,18 +70,34 @@ div
         span(v-if='!showData') データを見る
         span(v-else) 閉じる
     template(v-if='showData')
-      v-card-text
-        v-row.ma-0.pa-0.justify-center
-          v-btn(@click='sortDataRiverse = !sortDataRiverse') 並び替え
-        v-simple-table
-          thead
-            tr
-              th 施設・建物名
-              th 住所
-          tbody(v-for='cat in myCatShowData', :key='cat.index')
-            tr
-              td {{ cat.name }}
-              td {{ cat.address }}
+      v-dialog(transition='dialog-bottom-transition', max-width='600')
+        template(v-slot:activator='{ on, attrs }')
+          v-card-text
+            v-row.ma-0.pa-0.justify-center
+              v-btn(@click='sortDataRiverse = !sortDataRiverse') 並び替え
+            v-simple-table
+              thead
+                tr
+                  th 施設・建物名
+                  th 住所
+              tbody(
+                v-for='cat in myCatShowData',
+                :key='cat.index',
+                @click='edit(cat)',
+                v-bind='attrs',
+                v-on='on'
+              )
+                tr
+                  td {{ cat.name }}
+                  td {{ cat.address }}
+        template(v-slot:default='dialog')
+          v-card
+            v-card-title データを編集する
+            v-card-text
+              v-text-field(label='住所', v-model='editDataAddress', dense)
+              v-text-field(label='施設・建物名', v-model='editDataName', dense)
+            v-card-actions.justify-end
+              v-btn(text, @click='saveEdit(); dialog.value = false') 保存する
       v-card-actions
         v-btn(block, @click='closeData') 閉じる
     v-card-actions
@@ -111,6 +127,9 @@ div
 <script lang="ts">
 import Vue from 'vue'
 import { shikuchosons, Koaza, Shikuchoson } from '@/assets/zyukyohyouziData'
+
+type MyCatShowData = { index?: number; name: string; address: string }
+
 export default Vue.extend({
   name: 'IndexPage',
   data: () => ({
@@ -133,7 +152,9 @@ export default Vue.extend({
     ],
     myCat: [] as string[],
     showData: false,
-    sortDataRiverse: false,
+    sortDataRiverse: true,
+    editDataName: '',
+    editDataAddress: '',
     snackbar: false,
     snackbarText: '',
     downloadUrl: '',
@@ -162,7 +183,7 @@ export default Vue.extend({
         (this.leftOrRight ? '右' : '左')
       )
     },
-    myCatShowData() {
+    myCatShowData(): MyCatShowData[] {
       return this.myCat
         .map((cat, i) => {
           const splitted = cat.split(',')
@@ -223,12 +244,40 @@ export default Vue.extend({
       this.snackbar = true
       this.snackbarText = '保存しました'
     },
+    saveEdit() {
+      if (!this.editDataAddress) return
+      this.deleteFlag = false
+      this.updateMyCat()
+      try {
+        localStorage.setItem(
+          'myCat',
+          this.myCat.join('\n') +
+            '\n' +
+            this.editDataName +
+            ',' +
+            this.editDataAddress +
+            ',' +
+            this.chizuData
+        )
+      } catch (error) {
+        alert(error)
+      }
+      this.editDataName = ''
+      this.editDataAddress = ''
+      this.updateMyCat()
+      this.snackbar = true
+      this.snackbarText = '保存しました'
+    },
     openData() {
       this.updateMyCat()
       this.showData = !this.showData
     },
     closeData() {
       this.showData = false
+    },
+    edit(cat: MyCatShowData) {
+      this.editDataName = cat.name
+      this.editDataAddress = cat.address
     },
     reset() {
       this.shisetsu = ''
