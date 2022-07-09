@@ -71,15 +71,17 @@ div
         span(v-else) 閉じる
     template(v-if='showData')
       v-card-text
+        v-row.ma-0.pa-0.justify-center
+          v-btn(@click='sortDataRiverse = !sortDataRiverse') 並び替え
         v-simple-table
           thead
             tr
               th 施設・建物名
               th 住所
-          tbody(v-for='cat in myCat', :key='cat')
+          tbody(v-for='cat in myCatShowData', :key='cat.index')
             tr
-              td {{ cat.split(",")[0] }}
-              td {{ cat.split(",")[1] }}
+              td {{ cat.name }}
+              td {{ cat.address }}
       v-card-actions
         v-btn(block, @click='closeData') 閉じる
     v-card-actions
@@ -131,6 +133,7 @@ export default Vue.extend({
     ],
     myCat: [] as string[],
     showData: false,
+    sortDataRiverse: false,
     snackbar: false,
     snackbarText: '',
     downloadUrl: '',
@@ -158,6 +161,21 @@ export default Vue.extend({
         this.chizuPage +
         (this.leftOrRight ? '右' : '左')
       )
+    },
+    myCatShowData() {
+      return this.myCat
+        .map((cat, i) => {
+          const splitted = cat.split(',')
+          return {
+            index: i,
+            name: splitted[0],
+            address: splitted[1],
+          }
+        })
+        .sort((a, b) => {
+          if (!this.sortDataRiverse) return a.index - b.index
+          else return -a.index + b.index
+        })
     },
   },
   mounted() {
