@@ -79,9 +79,9 @@ div
           v-card
             v-card-title ダウンロードの準備ができました
             v-card-actions
-              v-btn(text, :href='downloadUrl', block) ダウンロード
+              v-btn(text, :href='downloadUrl', :download='fileName', block) ダウンロード
             v-card-actions.justify-end
-              v-btn(text, @click='dialog.value = false') Close
+              v-btn(text, @click='dialog.value = false') 閉じる
   v-snackbar(v-model='snackbar') 保存しました
     template(v-slot:action='{ attrs }')
       v-btn(color='pink', text, v-bind='attrs', @click='snackbar = false') 閉じる
@@ -113,6 +113,7 @@ export default Vue.extend({
     showData: false,
     snackbar: false,
     downloadUrl: '',
+    fileName: 'addressData.csv',
   }),
   computed: {
     zyusyo() {
@@ -187,6 +188,7 @@ export default Vue.extend({
     downloadReady() {
       let myCat = localStorage.getItem('myCat')
       if (!myCat) myCat = ''
+      this.fileName = `addressData${new Date().toISOString()}.csv`
       this.downloadUrl = URL.createObjectURL(
         new Blob([myCat], {
           type: 'application/octet-stream',
