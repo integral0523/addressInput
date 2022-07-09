@@ -114,7 +114,7 @@ export default Vue.extend({
     selectKoaza: {} as Koaza,
     selectChoume: '',
     banchi: '',
-    banchiRule: [(val: string) => /^(\d+(-\d+))*$/.test(val) || 'Error'],
+    banchiRule: [(val: string) => /^(\d+(-\d+)*)*$/.test(val) || 'Error'],
     buttons: [
       [7, 8, 9],
       [4, 5, 6],
