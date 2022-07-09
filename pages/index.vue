@@ -81,11 +81,17 @@ div
           v-card
             v-card-title ダウンロードの準備ができました
             v-card-actions
-              v-btn(text, :href='downloadUrl', :download='fileName', block) ダウンロード
+              v-btn(
+                text,
+                :href='downloadUrl',
+                :download='fileName',
+                @click='deleteFlag = true',
+                block
+              ) ダウンロード
             v-card-actions.justify-end
               v-btn(text, @click='dialog.value = false') 閉じる
-    //- v-card-actions(v-show='deleteFlag')
-    //-   v-btn(block, @click='deleteData') データを削除する
+    v-card-actions(v-show='deleteFlag')
+      v-btn(block, @click='deleteData') データを削除する
   v-snackbar(v-model='snackbar') 保存しました
     template(v-slot:action='{ attrs }')
       v-btn(color='pink', text, v-bind='attrs', @click='snackbar = false') 閉じる
@@ -160,6 +166,7 @@ export default Vue.extend({
     },
     save() {
       if (!this.zyusyo) return
+      this.deleteFlag = false
       this.updateMyCat()
       try {
         localStorage.setItem(
@@ -202,7 +209,11 @@ export default Vue.extend({
         })
       )
     },
-    deleteData() {},
+    deleteData() {
+      if (!this.deleteFlag) return false
+      localStorage.removeItem('myCat')
+      this.updateMyCat()
+    },
   },
 })
 </script>
