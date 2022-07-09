@@ -168,8 +168,11 @@ export default Vue.extend({
     },
     updateMyCat() {
       const myCat = localStorage.getItem('myCat')
-      if (myCat === null) return
-      this.myCat = myCat.split('\n')
+      if (myCat === null) {
+        this.myCat = []
+      } else {
+        this.myCat = myCat.split('\n')
+      }
     },
     save() {
       if (!this.zyusyo) return
